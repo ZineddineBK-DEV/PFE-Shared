@@ -1,0 +1,68 @@
+<section class="main-content">
+    <ul class="breadcrumb breadcrumb-style ">
+        <li class="breadcrumb-item">
+            <h5 class="page-title m-b-0">Resource managment</h5>
+        </li>
+        <li class="breadcrumb-item bcrumb-1">
+            <a routerLink="/dashboard/main">
+                <i class="fas fa-home font-17"></i></a>
+        </li>
+        <li class="breadcrumb-item">Vehicle</li>
+        <li class="breadcrumb-item">Calendar</li>
+    </ul>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-10 p-l-30">
+                                <div class="m-b-25">
+                                    <button class="btn btn-icon icon-left btn-primary" (click)="eventWindowCall()"> Add
+                                        Event</button>
+                                </div>
+                                <h3>Vehicles</h3>
+                                <!-- <div class="filter-container">
+                                    <ul class="list-group">
+                                        <li *ngFor="let vehicle of vehicles" class="list-group-item">
+                                            <strong>Model :</strong><span>{{" "+vehicle.model}}</span><br>
+                                            <strong>Plate :</strong><span>{{" "+vehicle.registration_number}}</span>
+                                        </li>
+                                    </ul>
+                                </div> -->
+                                <div class="col-md-12 col-md-10">
+                                    <div class="filter-container">
+                                        <div ngbAccordion *ngFor="let vehicle of vehicles" style="width: auto;margin-left: -35px;position: inherit;max-width: 200px;">
+                                            <div ngbAccordionItem>
+                                                <h4 ngbAccordionHeader>
+                                                    <button ngbAccordionButton>
+                                                        <strong >Model :</strong>
+                                                        <span>{{" "+vehicle.model}}</span>
+                                                    </button>
+                                                </h4>
+                                                <div ngbAccordionCollapse>
+                                                    <div ngbAccordionBody>
+                                                        <ng-template>
+                                                            <strong style="font-size: 11px;">Plate :</strong>
+                                                            <span style="font-size: 10px;">{{" "+vehicle.registration_number}}</span>
+                                                                <button class="btn btn-outline-danger" (click)="deleteVehicle(vehicle._id)"  style="border: none;border-radius: 10%;"><i class="fas fa-trash" ></i></button>
+                                                                <button class="btn btn-outline-warning" (click)="editVehicleWindowCall(vehicle)"  style="border: none;border-radius: 10%;"><i class="fas fa-pen" ></i></button>
+                                                                <button class="btn btn-outline-primary" (click)="ToggleCalendar(vehicle._id)"  style="border: none;border-radius: 10%;"><i class="far fa-calendar-alt" ></i></button>
+                                                                
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-10">
+                                <div class="panel-body">
+                                    <full-calendar [options]='calendarOptions' *ngIf="showCalendar">
+                                    </full-calendar>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

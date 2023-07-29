@@ -1,0 +1,126 @@
+<!-- <div class="modal-header">
+    <h4 class="modal-title">{{ title }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div> -->
+<!-- <div class="modal-body" style="margin-bottom: -40px;" >
+    <div class="row">
+        <div class="card author-box back">
+            <div class="card-body">
+                <div class="author-box-center ">
+                    <figure class="avatar msr-2 avatar-xl">
+                        <img src="" />
+                    </figure>
+                    <div class="author-box-name fullName">
+                        <span>aa</span>
+                    </div>
+                    <div class="badge badge-info">aa</div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body ">
+                <p class="clearfix">
+                    <span class="float-start">
+                        Mail
+                    </span>
+                    <span class="float-end text-muted">
+                       aa
+                    </span>
+                </p>
+                <p class="clearfix">
+                    <span class="float-start">
+                        Role
+                    </span>
+                    <span class="float-end text-muted">
+                       aa
+                    </span>
+                </p>
+                <p class="clearfix">
+                    <span class="float-start">
+                        Phone
+                    </span>
+                    <span class="float-end text-muted">
+                       aa
+                    </span>
+                </p>
+                <p class="clearfix">
+                    <span class="float-start">
+                        Hiring Date
+                    </span>
+                    <span class="float-end text-muted">
+                       aa
+                    </span>
+                </p>
+                <p class="clearfix">
+                    <span class="float-start">
+                        Departement
+                    </span>
+                    <span class="float-end text-muted">
+                        aa
+                    </span>
+                </p>
+                <p class="clearfix">
+                    <span class="float-start">
+                        Address
+                    </span>
+                    <span class="float-end text-muted">
+                        aa
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      <div class="table-modal-header">
+        <div class="modal-about">
+          <div class="fw-bold p-t-10 font-17">
+            Edit Vehicle</div>
+        </div>
+      </div>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+      <span aria-hidden="true"><i class="material-icons">close</i></span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="register-form" [formGroup]="vehicleEdittForm" (ngSubmit)="onSubmit(vehicleEdittForm)">
+      
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+          <label>Title<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Model" formControlName="model" required>
+          <small class="form-text text-danger"
+            *ngIf="!vehicleEdittForm.get('model')?.valid && vehicleEdittForm.get('model')?.touched"> Model is
+            required</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+          <label>Title<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Registration number" formControlName="registrationNumber" required>
+          <small class="form-text text-danger"
+            *ngIf="!vehicleEdittForm.get('registrationNumber')?.valid && vehicleEdittForm.get('registrationNumber')?.touched"> Model is
+            required</small>
+        </div>
+      </div>
+
+      <div class="row">
+        <div  class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
+          <label>Type<span class="text-danger">*</span></label>
+          <select  class="form-select form-control" formControlName="type" required>
+            <option selected disabled>Please select type</option>
+            <option value="commercial">Commecial</option>
+            <option value="civil">Civil</option>
+          </select>
+          <small class="form-text text-danger"
+            *ngIf="!vehicleEdittForm.get('type')?.valid && vehicleEdittForm.get('type')?.touched"> Model is
+            required</small>
+        </div>
+      </div>
+    </form>
+  </div>
