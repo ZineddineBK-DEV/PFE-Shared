@@ -117,17 +117,17 @@ module.exports.login = async function (req, res, next) {
       "roles"
     );
     if (!fetchedUser) {
-      return res.status(404).json({ message: "Wrong Email or Password" });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    if (!fetchedUser.isEnabled) {
-      return res.status(500).json({
+    if (fetchedUser.isEnabled==="Inactive") {
+      return res.status(403).json({
         message: "Unauthorised login. Waiting for register confirmation ",
       });
     }
     var result = await bcrypt.compare(req.body.password, fetchedUser.password);
     if (!result) {
-      return res.status(500).json({ message: "Wrong email or password" });
+      return res.status(500).json({ message: "Bycrypt failed" });
     }
     const token = jwt.sign(
       {
@@ -146,7 +146,7 @@ module.exports.login = async function (req, res, next) {
       roles: fetchedUser.roles,
     });
   } catch (error) {
-    return res.status(500).json({ message: "problem in bycript" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 module.exports.checkPassword = async function (req, res, next) {

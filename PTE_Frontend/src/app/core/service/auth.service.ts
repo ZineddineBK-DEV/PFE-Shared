@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +13,12 @@ export class AuthService {
   // public currentUser: Observable<User>;
   private api: string = "http://localhost:3001/api/users/"
   private apiLogin: string = "http://localhost:3001/api/login"
-  private token?: string;
-  private isAuthenticated = false;
-  private userID!: string
-  private userRole!: string
-  private user!: User;
-  private image!: string
-
+   token!: string;
+   isAuthenticated = false;
+   userID!: string
+   userRole!: string
+   user!: User;
+   image!: string
   constructor(private http: HttpClient, private router: Router) {
     // this.currentUserSubject = new BehaviorSubject<User>(
     //   JSON.parse(localStorage.getItem('currentUser') || '{}')
@@ -31,24 +30,27 @@ export class AuthService {
   //   return this.currentUserSubject.value;
   // }
 
-  login(email: string, password: string) {
-    this.http.post<{ token: string, expiresIn: number, id: string, roles: string, image: string }>(this.apiLogin, { email: email, password: password }).subscribe(response => {
-      //console.log(response);
-      this.token = response.token;
-      if (this.token) {
-        this.setAuthTimer(response.expiresIn)
-        this.isAuthenticated = true;
-        this.userID = response.id;
-        this.userRole = response.roles[0]
-        this.image = response.image
-        const now = new Date();
-        const expirationDate = new Date(now.getTime() + response.expiresIn * 1000);
-        this.saveAuthData(this.token, expirationDate, this.userRole, this.image)
-
-      }
-    })
-    return this.token;
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<{ token: string, expiresIn: number, id: string, roles: string, image: string }>(this.apiLogin, { email: email, password: password })
   }
+  //   subscribe(response => {
+  //     this.token = response.token;
+  //     if (this.token) {
+  //       this.setAuthTimer(response.expiresIn)
+  //       this.isAuthenticated = true;
+  //       this.userID = response.id;
+  //       this.userRole = response.roles[0]
+  //       this.image = response.image
+  //       const now = new Date();
+  //       const expirationDate = new Date(now.getTime() + response.expiresIn * 1000);
+  //       this.saveAuthData(this.token, expirationDate, this.userRole, this.image)
+  //       this.router.navigate(['dashboard/main']);
+  //     }else {
+  //       this.isAuthenticated=false
+  //     }
+  //   })
+
+  // }
 
   signup(form: FormGroup) {
     let success;
@@ -108,15 +110,15 @@ export class AuthService {
     }, expiresIn * 1000);
   }
 
-  private saveAuthData(token: string, expirationDate: Date, roles: string, image: string) {
+   saveAuthData(token: string, expirationDate: Date, roles: string, image: string,userID:string) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toLocaleString());
-    localStorage.setItem("userId", this.userID);
+    localStorage.setItem("userId", userID);
     localStorage.setItem("roles", roles);
     localStorage.setItem("image", image);
   }
 
-  private clearAuthData() {
+   clearAuthData() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
     localStorage.removeItem("userId");
@@ -124,7 +126,7 @@ export class AuthService {
     localStorage.removeItem("image");
   }
 
-  private getAuthData() {
+   getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration")
     this.userID != localStorage.getItem("userId")

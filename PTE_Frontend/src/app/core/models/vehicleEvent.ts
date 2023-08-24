@@ -2,14 +2,15 @@ import { User } from "./user"
 import { Vehicle } from "./vehicle"
 
 export class VehicleEvent{
-     _id!:string
+     _id?:string
      title!:String
      start!:Date
      end!:Date
-     vehicle!:Vehicle
-     driver!:User
+     vehicle!:any
+     driver!:any
+     applicant!:any
      destination!:String
-     isAccepted:Boolean=true
-    constructor(vehicleEvent:VehicleEvent){}
+     //isAccepted:Boolean=true
+    constructor(){}
 
     }

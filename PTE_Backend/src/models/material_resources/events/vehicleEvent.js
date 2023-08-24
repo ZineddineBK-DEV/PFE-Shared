@@ -7,6 +7,6 @@ const VehicleEventSchema = mongoose.Schema({
   driver: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   destination: { type: String, required: true },
   applicant: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  isAccepted: { type: Boolean, required: true, default: true },
+  //isAccepted: { type: Boolean, required: true, default: true },
 });
 module.exports = mongoose.model("VehicleEvent", VehicleEventSchema);

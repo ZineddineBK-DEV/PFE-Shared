@@ -38,7 +38,31 @@ module.exports.getAllVehicles = async function (req, res, next) {
     res.status(500).json("internal server error: " + error.message);
   }
 };
+module.exports.editVehicle = async function(req, res, next) {
+  const ID = req.params.id;
 
+  if (!ObjectId.isValid(ID)) {
+    return res.status(404).json('ID is not valid');
+  }
+  try {
+    const vehicle = await Vehicle.findByIdAndUpdate(
+      ID,
+      {
+        model: req.body.model,
+        registration_number: req.body.registration_number,
+        type: req.body.type,
+      },
+      { new: true } // return the updated document
+    );
+
+    if (!vehicle) {
+      return res.status(404).json('Vehicle not found');
+    }
+    return res.json(vehicle);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
 /**Seach a vehicle by type or registration number */
 module.exports.searchVehicle = async function (req, res) {
   try {
@@ -70,7 +94,7 @@ module.exports.createEvent = async function (req, res) {
       start: { $gte: req.body.start },
       end: { $lte: req.body.end },
       vehicle: req.body.vehicle,
-      isAccepted: true,
+      //isAccepted: true,
     });
 
     // if dates are  already reserved
@@ -86,11 +110,12 @@ module.exports.createEvent = async function (req, res) {
         applicant: req.body.applicant,
         driver: req.body.driver,
         destination: req.body.destination,
+        //isAccepted:true
       };
 
-      if (res.locals.user.roles.includes("admin")) {
-        body.isAccepted = true;
-      }
+      // if (res.locals.user.roles.includes("admin")) {
+      //   body.isAccepted = true;
+      // }
 
       const event = await VehicleEvent.create({ ...body });
       if (event) {
@@ -98,12 +123,12 @@ module.exports.createEvent = async function (req, res) {
       }
     }
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json(error.message);
   }
 };
 /** get events by vehicle ID*/
 module.exports.getVehicleEvents = async function (req, res) {
-  const ID = req.query.vehicle;
+  const ID = req.body.vehicle;
   if (!ObjectId.isValid(ID)) {
     return res.status(404).json("ID is not valid");
   }
@@ -113,8 +138,8 @@ module.exports.getVehicleEvents = async function (req, res) {
     if (res.locals.user.roles.includes("admin")) {
       const events = await VehicleEvent.find({
         vehicle: ID,
-        start: { $gte: req.query.start },
-        end: { $lte: req.query.end },
+        // start: { $gte: req.query.start },
+        // end: { $lte: req.query.end },
       })
         .populate({ path: "driver", select: "firstName lastName image -_id" })
         .populate({ path: "applicant", select: "firstName lastName image" });
@@ -126,8 +151,8 @@ module.exports.getVehicleEvents = async function (req, res) {
       const events = await VehicleEvent.find({
         $and: [
           { vehicle: ID },
-          { start: { $gte: req.query.start } },
-          { end: { $lte: req.query.end } },
+          // { start: { $gte: req.query.start } },
+          // { end: { $lte: req.query.end } },
 
           {
             $or: [
@@ -212,3 +237,23 @@ module.exports.deleteEvent = async function (req, res) {
     res.status(404).json(error);
   }
 };
+
+
+module.exports.vehicleEventsById = async function(req,res){
+  const ID = req.params.id;
+  if (!ObjectId.isValid) {
+    return res.status(404).json({ message: "Vehicle not found" })
+  }
+  try {
+    const events = await VehicleEvent.find({
+      vehicle: ObjectId(ID),
+    }).populate({ path: "driver", select: "firstName lastName image _id" })
+      .populate({ path: "applicant", select: "_id firstName lastName image" });
+    if (events) {
+      res.status(200).json(events);
+    }
+  }
+  catch (error) {
+    res.status(500).json(error);
+  }
+}

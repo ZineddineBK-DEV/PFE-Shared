@@ -23,9 +23,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddEventModalComponent } from './vehicle/add-event-modal/add-event-modal.component';
 import { EditVehicleModalComponent } from './vehicle/edit-vehicle-modal/edit-vehicle-modal.component';
+import { AddVehicleModalComponent } from './vehicle/add-vehicle-modal/add-vehicle-modal.component';
+import { EventInfoModalComponent } from './vehicle/event-info-modal/event-info-modal.component';
 
 @NgModule({
-  declarations: [MainComponent, Dashboard2Component, UserListComponent, UserRequestComponent, UserDetailsComponent, RoomComponent, ToolComponent, TechnicianComponent, VirtualisationEnvironmentComponent, VehicleComponent, AddEventModalComponent, EditVehicleModalComponent],
+  declarations: [MainComponent, Dashboard2Component, UserListComponent, UserRequestComponent, UserDetailsComponent, RoomComponent, ToolComponent, TechnicianComponent, VirtualisationEnvironmentComponent, VehicleComponent, AddEventModalComponent, EditVehicleModalComponent, AddVehicleModalComponent, EventInfoModalComponent],
   imports: [
     CommonModule,
     NgbModule,

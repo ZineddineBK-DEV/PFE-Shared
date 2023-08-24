@@ -21,6 +21,7 @@ import { Page500Component } from './page500/page500.component';
 import { Page404Component } from './page404/page404.component';
 import { ResetComponent } from './reset/reset.component';
 import { CodeComponent } from './code/code.component';
+import { ToastrModule } from 'ngx-toastr';
 
 const icons = {
   Facebook,
@@ -41,6 +42,9 @@ const icons = {
     ReactiveFormsModule,
     AuthenticationRoutingModule,
     FeatherModule.pick(icons),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-full-width'
+    }),
   ],
 })
 export class AuthenticationModule {}

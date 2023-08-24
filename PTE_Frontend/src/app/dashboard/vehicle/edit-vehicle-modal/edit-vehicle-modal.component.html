@@ -88,7 +88,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <form class="register-form" [formGroup]="vehicleEdittForm" (ngSubmit)="onSubmit(vehicleEdittForm)">
+    <form class="register-form" [formGroup]="vehicleEdittForm" (ngSubmit)="onSubmit()">
       
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
@@ -102,7 +102,7 @@
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-4">
           <label>Title<span class="text-danger">*</span></label>
-          <input type="text" class="form-control" placeholder="Registration number" formControlName="registrationNumber" required>
+          <input type="text" class="form-control" placeholder="Registration number" formControlName="registration_number" required>
           <small class="form-text text-danger"
             *ngIf="!vehicleEdittForm.get('registrationNumber')?.valid && vehicleEdittForm.get('registrationNumber')?.touched"> Model is
             required</small>
@@ -121,6 +121,11 @@
             *ngIf="!vehicleEdittForm.get('type')?.valid && vehicleEdittForm.get('type')?.touched"> Model is
             required</small>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button  type="submit" class="btn btn-primary">Edit Vehicle</button>
+        
+        <button type="button" class="btn btn-light" (click)="activeModal.close('Close click')">Close</button>
       </div>
     </form>
   </div>
